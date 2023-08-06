@@ -1,5 +1,7 @@
 import React from "react";
 
+import Gallary from "@/components/gallary";
+import Info from "@/components/info";
 import ProductList from "@/components/product-list";
 import { Separator } from "@/components/ui/separator";
 import { getProduct } from "@/services/get-product";
@@ -22,9 +24,9 @@ const ProductPage = async ({ params }: Props) => {
       <section className="px-4 py-10 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
           {/* Gallery */}
-          <div>Gallery</div>
+          <Gallary images={product.images} />
           {/* Info */}
-          <div>Info</div>
+          <Info data={product} />
         </div>
         <Separator className="my-4" />
         <ProductList title="Related Items" items={relatedProducts} />

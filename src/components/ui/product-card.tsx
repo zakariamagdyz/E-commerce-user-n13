@@ -1,8 +1,9 @@
 "use client";
 import { Expand, ShoppingBag } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
+import { usePreviewModal } from "@/hooks/usePreviewModal";
 import { Product } from "@/types";
 
 import Currency from "./currency";
@@ -13,8 +14,19 @@ type Props = {
 };
 
 const ProductCard = ({ item }: Props) => {
+  const router = useRouter();
+  const { openModal } = usePreviewModal();
+  const handleClick = () => {
+    router.push(`/products/${item.id}`);
+  };
+  const onPreview: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    openModal(item);
+  };
+
   return (
-    <Link className="group cursor-pointer space-y-4 rounded-xl border bg-white p-3" href={`/products/${item.id}`}>
+    // eslint-disable-next-line
+    <div className="group cursor-pointer space-y-4 rounded-xl border bg-white p-3" onClick={handleClick}>
       {/* Image and actions */}
       <figure className="relative aspect-square rounded-xl bg-gray-100">
         <Image
@@ -27,13 +39,7 @@ const ProductCard = ({ item }: Props) => {
         />
         <div className="absolute bottom-5 w-full px-6 opacity-0 transition group-hover:opacity-100">
           <div className="flex justify-center gap-x-6">
-            <IconButton
-              icon={<Expand size={20} className="text-gray-600" />}
-              onClick={(e) => {
-                e.stopPropagation();
-                console.log("hola");
-              }}
-            />
+            <IconButton icon={<Expand size={20} className="text-gray-600" />} onClick={onPreview} />
             <IconButton icon={<ShoppingBag size={20} className="text-gray-600" />} />
           </div>
         </div>
@@ -47,7 +53,7 @@ const ProductCard = ({ item }: Props) => {
       <div className="flex items-center justify-between">
         <Currency value={item.price} />
       </div>
-    </Link>
+    </div>
   );
 };
 
