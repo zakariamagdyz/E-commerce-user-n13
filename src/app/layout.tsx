@@ -6,6 +6,7 @@ import Fotoer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { PreviewProvider } from "@/contexts/preview-context";
 import ModalProvider from "@/providers/modal-provider";
+import { ToastProvider } from "@/providers/toast-provider";
 import { interFont } from "@/utils/fonts";
 
 // default metadata for all pages
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={interFont.variable}>
       <body className="font-sans">
         <PreviewProvider>
+          <ToastProvider />
           <ModalProvider />
           <Navbar />
           {children}

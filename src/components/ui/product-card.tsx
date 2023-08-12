@@ -3,6 +3,7 @@ import { Expand, ShoppingBag } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import { useCart } from "@/hooks/useCart";
 import { usePreviewModal } from "@/hooks/usePreviewModal";
 import { Product } from "@/types";
 
@@ -16,12 +17,18 @@ type Props = {
 const ProductCard = ({ item }: Props) => {
   const router = useRouter();
   const { openModal } = usePreviewModal();
+  const cart = useCart();
+
   const handleClick = () => {
     router.push(`/products/${item.id}`);
   };
   const onPreview: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     openModal(item);
+  };
+  const onAddToCart: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+    cart.addToCart(item);
   };
 
   return (
@@ -40,7 +47,7 @@ const ProductCard = ({ item }: Props) => {
         <div className="absolute bottom-5 w-full px-6 opacity-0 transition group-hover:opacity-100">
           <div className="flex justify-center gap-x-6">
             <IconButton icon={<Expand size={20} className="text-gray-600" />} onClick={onPreview} />
-            <IconButton icon={<ShoppingBag size={20} className="text-gray-600" />} />
+            <IconButton icon={<ShoppingBag size={20} className="text-gray-600" />} onClick={onAddToCart} />
           </div>
         </div>
       </figure>

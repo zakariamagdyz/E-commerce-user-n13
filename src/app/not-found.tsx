@@ -2,7 +2,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function NotFound() {
   return (
-    <main className="">
+    <main className=" grid min-h-[80vh] place-items-center">
       <article className="flex items-center gap-3">
         <h1 className="text-3xl font-bold tracking-tight">404</h1>
         <Separator orientation="vertical" className="h-14" />
