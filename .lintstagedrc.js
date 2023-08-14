@@ -2,9 +2,7 @@ const path = require("path");
 
 const buildEslintCommand = (filenames) =>
   `next lint --fix --file ${filenames
-    .map((f) =>
-      f !== ".lintstagedrc.js" ? path.relative(process.cwd(), f) : ""
-    )
+    .map((f) => (f !== ".lintstagedrc.js" ? path.relative(process.cwd(), f) : ""))
     .join(" --file ")}`;
 
 module.exports = {

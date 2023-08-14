@@ -1,3 +1,6 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+
 import Billboard from "@/components/billboard";
 import Filter from "@/components/filter";
 import MobileFilters from "@/components/mobile-filters";
@@ -13,15 +16,30 @@ type Props = {
   searchParams: { colorId: string; sizeId: string };
 };
 
-const Category = async ({ params, searchParams }: Props) => {
-  const sizes = await getSizes();
-  const colors = await getColors();
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = await getCategory(params.categoryId);
-  const categoryProducts = await getProducts({
-    categoryId: params.categoryId,
-    colorId: searchParams.colorId,
-    sizeId: searchParams.sizeId,
-  });
+  if (!category) return { title: "Category Not Found" };
+
+  return {
+    title: category.name,
+    description: `All products in ${category.name} category `,
+  };
+}
+
+const Category = async ({ params, searchParams }: Props) => {
+  const category = await getCategory(params.categoryId);
+  if (!category) return notFound();
+
+  const [colors, sizes, categoryProducts] = await Promise.all([
+    getColors(),
+    getSizes(),
+    getProducts({
+      categoryId: params.categoryId,
+      colorId: searchParams.colorId,
+      sizeId: searchParams.sizeId,
+    }),
+  ]);
+
   return (
     <main className="container my-8">
       <Billboard data={category.billboard} />

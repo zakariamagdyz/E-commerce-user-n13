@@ -15,7 +15,7 @@ const MainNav = ({ data }: Props) => {
   const routes = data.map((category) => ({
     href: `/categories/${category.id}`,
     label: category.name,
-    active: pathname === `/category/${category.id}`,
+    active: pathname === `/categories/${category.id}`,
   }));
 
   return (
@@ -26,7 +26,7 @@ const MainNav = ({ data }: Props) => {
           href={route.href}
           className={cn(
             `text-sm font-medium text-gray-900 hover:text-gray-700`,
-            route.active ? "text-gray-900" : "text-gray-500"
+            route.active ? "text-gray-900 font-semibold" : "text-gray-500"
           )}
         >
           {route.label}
