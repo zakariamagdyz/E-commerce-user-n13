@@ -1,12 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
+
 import { useCart } from "@/hooks/useCart";
 import useHasHydrated from "@/hooks/useHasHydrated";
 
 import CartItem from "./components/card-item";
 import Summary from "./components/summary";
-
-export const revalidate = 0;
 
 const CartPage = () => {
   const cart = useCart();
@@ -21,7 +21,11 @@ const CartPage = () => {
             {hasHydrated && cart.items.length === 0 && <p className="text-neutral-500">No items added to cart.</p>}
             <ul>{hasHydrated && cart.items.map((item) => <CartItem key={item.id} data={item} />)}</ul>
           </div>
-          {hasHydrated && <Summary />}
+          {hasHydrated && (
+            <Suspense fallback={<div>Loading.....</div>}>
+              <Summary />
+            </Suspense>
+          )}
         </div>
       </section>
     </main>

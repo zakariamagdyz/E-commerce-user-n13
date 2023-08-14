@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import React from "react";
 
 import Gallary from "@/components/gallary";
@@ -12,9 +14,19 @@ type Props = {
     productId: string;
   };
 };
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const product = await getProduct(params.productId);
+  if (!product) return { title: "Product Not Found" };
+  return {
+    title: product.name,
+    description: `${product.name} is a product in ${product.category.name} category`,
+  };
+}
 
 const ProductPage = async ({ params }: Props) => {
   const product = await getProduct(params.productId);
+  if (!product) return notFound();
+
   const suggestedProducts = await getProducts({
     categoryId: product.category.id,
   });

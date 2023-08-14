@@ -26,3 +26,16 @@ export const getProducts = async (query: Query): Promise<Product[]> => {
   if (!response.ok) throw new Error(data.message);
   return data;
 };
+
+export const getFeaturedProducts = async (): Promise<Product[]> => {
+  const url = qs.stringifyUrl({
+    url: URL,
+    query: {
+      isFeatured: true,
+    },
+  });
+  const response = await fetch(url, { next: { revalidate: 300 } });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message);
+  return data;
+};

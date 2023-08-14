@@ -11,8 +11,8 @@ import { interFont } from "@/utils/fonts";
 
 // default metadata for all pages
 export const metadata: Metadata = {
-  title: "Store",
-  description: "Store",
+  title: "Zakaria's Store",
+  description: "the best store in the world for selling stuff",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
