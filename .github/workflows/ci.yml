@@ -60,6 +60,8 @@ jobs:
 
   Build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_API_URL: https://e-commerce-admin-n13.vercel.app/api/64ba81d036ee65d4fff2f8a1
     strategy:
       matrix:
         node-version: [18.x]
