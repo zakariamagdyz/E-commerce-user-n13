@@ -13,6 +13,7 @@ import { interFont } from "@/utils/fonts";
 export const metadata: Metadata = {
   title: "Zakaria's Store",
   description: "the best store in the world for selling stuff",
+  icons: "/favicon.png",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -20,10 +20,10 @@ const Filter = ({ data, name, valueKey }: Props) => {
   const selectedValue = searchParams.get(valueKey);
 
   const onClick = (id: string) => {
-    const current = qs.parse(searchParams.toString());
-    const query = { ...current, [valueKey]: id };
+    const currentUrlSearchObj = qs.parse(searchParams.toString());
+    const query = { ...currentUrlSearchObj, [valueKey]: id };
     // remove current filter
-    if (current[valueKey] === id) {
+    if (currentUrlSearchObj[valueKey] === id) {
       query[valueKey] = null;
     }
     const url = qs.stringifyUrl({ url: window.location.href, query }, { skipNull: true });

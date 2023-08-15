@@ -7,7 +7,6 @@ import { getBillboard } from "@/services/get-billboard";
 import { getFeaturedProducts } from "@/services/get-products";
 
 // Implement Sequential Data Fetching instead of Parallel Data Fetching
-
 export default async function Home() {
   const billboard = await getBillboard("64c68411fd49e42abcf6d053");
   const productsPromise = getFeaturedProducts();

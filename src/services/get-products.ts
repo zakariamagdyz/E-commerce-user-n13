@@ -11,7 +11,7 @@ type Query = {
   isFeatured?: boolean;
 };
 
-export const getProducts = async (query: Query): Promise<Product[]> => {
+export const getProducts = async (query: Query, revalidate = 0): Promise<Product[]> => {
   const url = qs.stringifyUrl({
     url: URL,
     query: {
@@ -21,7 +21,7 @@ export const getProducts = async (query: Query): Promise<Product[]> => {
       isFeatured: query.isFeatured,
     },
   });
-  const response = await fetch(url, { next: { revalidate: 0 } });
+  const response = await fetch(url, { next: { revalidate } });
   const data = await response.json();
   if (!response.ok) throw new Error(data.message);
   return data;
