@@ -7,13 +7,14 @@ import Info from "@/components/info";
 import ProductList from "@/components/product-list";
 import { Separator } from "@/components/ui/separator";
 import { getProduct } from "@/services/get-product";
-import { getProducts } from "@/services/get-products";
+import { getFeaturedProducts, getProducts } from "@/services/get-products";
 
 type Props = {
   params: {
     productId: string;
   };
 };
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await getProduct(params.productId);
   if (!product) return { title: "Product Not Found" };
@@ -27,9 +28,12 @@ const ProductPage = async ({ params }: Props) => {
   const product = await getProduct(params.productId);
   if (!product) return notFound();
 
-  const suggestedProducts = await getProducts({
-    categoryId: product.category.id,
-  });
+  const suggestedProducts = await getProducts(
+    {
+      categoryId: product.category.id,
+    },
+    300
+  );
   const relatedProducts = suggestedProducts.filter((product) => product.id !== params.productId);
   return (
     <main className="container my-8 bg-white">
@@ -48,3 +52,11 @@ const ProductPage = async ({ params }: Props) => {
 };
 
 export default ProductPage;
+
+export const generateStaticParams = async () => {
+  const featuredProducts = await getFeaturedProducts();
+
+  return featuredProducts.map((product) => ({
+    productId: product.id,
+  }));
+};
