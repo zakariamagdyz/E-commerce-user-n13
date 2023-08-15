@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 
 import { useCart } from "@/hooks/useCart";
 import { usePreviewModal } from "@/hooks/usePreviewModal";
-import { Product } from "@/types";
+import addBlurredDataUrls from "@/lib/getbase64";
 
 import Currency from "./currency";
 import IconButton from "./icon-button";
 
 type Props = {
-  item: Product;
+  item: Awaited<ReturnType<typeof addBlurredDataUrls>>[number];
 };
 
 const ProductCard = ({ item }: Props) => {
@@ -41,6 +41,8 @@ const ProductCard = ({ item }: Props) => {
           priority
           src={item.images[0].url}
           alt={item.name}
+          placeholder="blur"
+          blurDataURL={item.images[0].blurredDataUrl}
           className="aspect-square rounded-md object-cover"
           sizes="(min-width: 1480px) 280px, (min-width: 1040px) calc(21.43vw - 33px), (min-width: 780px) calc(33.33vw - 74px), (min-width: 640px) calc(50vw - 90px), calc(100vw - 90px)"
         />

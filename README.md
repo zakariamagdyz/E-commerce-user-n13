@@ -23,12 +23,14 @@ Key Features:
 - Stripe checkout
 - Stripe webhooks
 - MongoDB + Prisma
+- SSR + ISR to Enhance Performance
+- Image Optimization (responsive images, placeholders)
 
-### Prerequisites
+## Prerequisites
 
-**Node version 14.x**
+Add: _Node version 14.x_
 
-### Install packages
+## Install packages
 
 ```shell
 npm i
