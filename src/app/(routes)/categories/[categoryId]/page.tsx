@@ -6,6 +6,7 @@ import Filter from "@/components/filter";
 import MobileFilters from "@/components/mobile-filters";
 import NoResults from "@/components/ui/no-results";
 import ProductCard from "@/components/ui/product-card";
+import addBlurredDataUrls from "@/lib/getbase64";
 import { getCategory } from "@/services/get-category";
 import { getColors } from "@/services/get-colors";
 import { getProducts } from "@/services/get-products";
@@ -40,6 +41,8 @@ const Category = async ({ params, searchParams }: Props) => {
     }),
   ]);
 
+  const productItemsWithImagesPlaceholders = await addBlurredDataUrls(categoryProducts);
+
   return (
     <main className="container my-8">
       <Billboard data={category.billboard} />
@@ -54,7 +57,7 @@ const Category = async ({ params, searchParams }: Props) => {
           <div className="mt-6 lg:col-span-4 lg:mt-0">
             {categoryProducts.length === 0 && <NoResults />}
             <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-              {categoryProducts.map((product) => (
+              {productItemsWithImagesPlaceholders.map((product) => (
                 <ProductCard key={product.id} item={product} />
               ))}
             </section>
