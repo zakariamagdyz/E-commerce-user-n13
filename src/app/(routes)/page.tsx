@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 
+import Await from "@/components/await";
 import Billboard from "@/components/billboard";
 import FeaturedProductSkeleton from "@/components/featured-products-skeleton";
 import ProductList from "@/components/product-list";
@@ -17,7 +18,9 @@ export default async function Home() {
       <Billboard data={billboard} />
       <Suspense fallback={<FeaturedProductSkeleton />}>
         <section className="my-8 flex flex-col gap-y-8 sm:px-6 lg:px-8">
-          <ProductList productsPromise={productsPromise} title="Featured Products" />
+          <Await promise={productsPromise}>
+            {(products) => <ProductList items={products} title="Featured Products" />}
+          </Await>
         </section>
       </Suspense>
     </main>
