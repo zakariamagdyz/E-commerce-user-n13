@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import Billboard from "@/components/billboard";
 import Filter from "@/components/filter";
@@ -48,12 +49,17 @@ const Category = async ({ params, searchParams }: Props) => {
       <Billboard data={category.billboard} />
       <div className="px-4 pb-24 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-5 lg:gap-x-8 ">
-          <MobileFilters colors={colors} sizes={sizes} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <MobileFilters colors={colors} sizes={sizes} />
+          </Suspense>
+
           {/* Add mobile filters */}
-          <div className="hidden lg:block">
-            <Filter valueKey="sizeId" name="Sizes" data={sizes} />
-            <Filter valueKey="colorId" name="Colors" data={colors} />
-          </div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <div className="hidden lg:block">
+              <Filter valueKey="sizeId" name="Sizes" data={sizes} />
+              <Filter valueKey="colorId" name="Colors" data={colors} />
+            </div>
+          </Suspense>
           <div className="mt-6 lg:col-span-4 lg:mt-0">
             {categoryProducts.length === 0 && <NoResults />}
             <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
