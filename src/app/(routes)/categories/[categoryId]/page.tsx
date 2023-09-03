@@ -1,17 +1,21 @@
+import { nanoid } from "nanoid";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+import Await from "@/components/await";
 import Billboard from "@/components/billboard";
 import Filter from "@/components/filter";
 import MobileFilters from "@/components/mobile-filters";
-import NoResults from "@/components/ui/no-results";
-import ProductCard from "@/components/ui/product-card";
 import addBlurredDataUrls from "@/lib/getbase64";
 import { getCategory } from "@/services/get-category";
 import { getColors } from "@/services/get-colors";
 import { getProducts } from "@/services/get-products";
 import { getSizes } from "@/services/get-sizes";
+
+import FilterSkeleton from "./components/filter-skeleton";
+import CategoryProductList from "./components/product-list";
+import ProductSkeleton from "./components/products-skeleton";
 
 type Props = {
   params: { categoryId: string };
@@ -32,42 +36,42 @@ const Category = async ({ params, searchParams }: Props) => {
   const category = await getCategory(params.categoryId);
   if (!category) return notFound();
 
-  const [colors, sizes, categoryProducts] = await Promise.all([
-    getColors(),
-    getSizes(),
-    getProducts({
-      categoryId: params.categoryId,
-      colorId: searchParams.colorId,
-      sizeId: searchParams.sizeId,
-    }),
-  ]);
+  const [colors, sizes] = await Promise.all([getColors(), getSizes()]);
 
-  const productItemsWithImagesPlaceholders = await addBlurredDataUrls(categoryProducts);
+  const categoryProductsPromise = getProducts({
+    categoryId: params.categoryId,
+    colorId: searchParams.colorId,
+    sizeId: searchParams.sizeId,
+  });
 
   return (
-    <main className="container my-8">
+    <main key={nanoid()} className="container my-8">
       <Billboard data={category.billboard} />
       <div className="px-4 pb-24 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-5 lg:gap-x-8 ">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<FilterSkeleton />}>
             <MobileFilters colors={colors} sizes={sizes} />
           </Suspense>
 
           {/* Add mobile filters */}
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<FilterSkeleton />}>
             <div className="hidden lg:block">
               <Filter valueKey="sizeId" name="Sizes" data={sizes} />
               <Filter valueKey="colorId" name="Colors" data={colors} />
             </div>
           </Suspense>
-          <div className="mt-6 lg:col-span-4 lg:mt-0">
-            {categoryProducts.length === 0 && <NoResults />}
-            <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-              {productItemsWithImagesPlaceholders.map((product) => (
-                <ProductCard key={product.id} item={product} />
-              ))}
-            </section>
-          </div>
+
+          <Suspense fallback={<ProductSkeleton />}>
+            <Await promise={categoryProductsPromise}>
+              {(categoryProducts) => (
+                <Await promise={addBlurredDataUrls(categoryProducts)}>
+                  {(productItemsWithImagesPlaceholders) => (
+                    <CategoryProductList products={productItemsWithImagesPlaceholders} />
+                  )}
+                </Await>
+              )}
+            </Await>
+          </Suspense>
         </div>
       </div>
     </main>
