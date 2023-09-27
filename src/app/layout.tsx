@@ -10,10 +10,44 @@ import { ToastProvider } from "@/providers/toast-provider";
 import { urbanistFont } from "@/utils/fonts";
 
 // default metadata for all pages
+
 export const metadata: Metadata = {
   title: "Zakaria's Store",
   description: "the best store in the world for selling stuff",
-  icons: "/favicon.png",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+    other: [
+      { rel: "manifest", url: "/site.webmanifest" },
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#5bbad5" },
+      { rel: "shortcut icon", url: "/favicon.ico" },
+    ],
+  },
+  themeColor: "#ffffff",
+  colorScheme: "light",
+  openGraph: {
+    url: "https://e-commerce-user-n13.vercel.app/",
+    title: "Zakaria's Store",
+    description: "the best store in the world for selling stuff",
+    images: ["/mstile-150x150.png"],
+    type: "website",
+    siteName: "Zakaria's Store",
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "https://e-commerce-user-n13.vercel.app/",
+    creator: "@zakariamagdy",
+    title: "Zakaria's Store",
+    description: "the best store in the world for selling stuff",
+    images: ["/mstile-150x150.png"],
+  },
+  other: {
+    "msapplication-TileColor": "#da532c",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
