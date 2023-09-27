@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     url: "https://e-commerce-user-n13.vercel.app/",
     title: "Zakaria's Store",
     description: "the best store in the world for selling stuff",
-    images: ["/mstile-150x150.png"],
+    images: ["/social.webp"],
     type: "website",
     siteName: "Zakaria's Store",
   },
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     creator: "@zakariamagdy",
     title: "Zakaria's Store",
     description: "the best store in the world for selling stuff",
-    images: ["/mstile-150x150.png"],
+    images: ["/social.webp"],
   },
   other: {
     "msapplication-TileColor": "#da532c",
