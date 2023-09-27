@@ -12,6 +12,7 @@ import { getCategory } from "@/services/get-category";
 import { getColors } from "@/services/get-colors";
 import { getProducts } from "@/services/get-products";
 import { getSizes } from "@/services/get-sizes";
+import { sanatizeSearchParams } from "@/utils/sanatize-search-params";
 
 import FilterSkeleton from "./components/filter-skeleton";
 import CategoryProductList from "./components/product-list";
@@ -19,7 +20,7 @@ import ProductSkeleton from "./components/products-skeleton";
 
 type Props = {
   params: { categoryId: string };
-  searchParams: { colorId: string; sizeId: string };
+  searchParams: { colorId: string[] | string | undefined; sizeId: string[] | string | undefined };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -33,6 +34,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const Category = async ({ params, searchParams }: Props) => {
+  const sanatizeColorId = sanatizeSearchParams(searchParams.colorId);
+  const sanatizeSizeId = sanatizeSearchParams(searchParams.sizeId);
   const category = await getCategory(params.categoryId);
   if (!category) return notFound();
 
@@ -40,8 +43,8 @@ const Category = async ({ params, searchParams }: Props) => {
 
   const categoryProductsPromise = getProducts({
     categoryId: params.categoryId,
-    colorId: searchParams.colorId,
-    sizeId: searchParams.sizeId,
+    colorId: sanatizeColorId,
+    sizeId: sanatizeSizeId,
   });
 
   return (
