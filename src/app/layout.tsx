@@ -48,6 +48,8 @@ export const metadata: Metadata = {
   other: {
     "msapplication-TileColor": "#da532c",
   },
+  keywords: ["e-commerce", "store", "shop", "buy", "sell", "stuff"],
+  creator: "@zakariamagdy",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

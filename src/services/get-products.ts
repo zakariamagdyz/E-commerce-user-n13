@@ -34,7 +34,7 @@ export const getFeaturedProducts = async (): Promise<Product[]> => {
       isFeatured: true,
     },
   });
-  const response = await fetch(url, { next: { revalidate: 300 } });
+  const response = await fetch(url, { next: { revalidate: 0 } });
   const data = await response.json();
   if (!response.ok) throw new Error(data.message);
   return data;
